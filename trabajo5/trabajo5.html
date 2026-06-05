@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eTrade</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      border-bottom: 1px solid #ddd;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .nav-logo {
+      font-weight: bold;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .nav-links a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .nav-links a:hover {
+      color: #000;
+    }
+
+    .nav-derecho {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cajabusqueda {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: #999;
+      width: 160px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .shop-banner {
+  background: #f5f5f5;
+  padding: 20px 24px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 110px;
+  overflow: hidden;
+  position: relative;
+}
+
+    .banner-text {
+      align-self: center;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .breadcrumb a {
+      text-decoration: none;
+      color: #999;
+    }
+
+    .breadcrumb a.active {
+      color: #333;
+      font-weight: bold;
+    }
+
+    .breadcrumb span {
+      margin: 0 4px;
+    }
+
+    .shop-banner h1 {
+      font-size: 22px;
+      font-weight: bold;
+      color: #111;
+    }
+
+ .banner-img {
+  height: 100px;
+  object-fit: contain;
+  position: absolute;
+  right: 24px;
+  bottom: 0;
+}
+
+/* TIENDA */
+.shop-container {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.filtros {
+  width: 200px;
+  min-width: 200px;
+  font-size: 13px;
+}
+
+.filtro-grupo {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 16px;
+}
+
+.filtro-titulo {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filtro-grupo label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  cursor: pointer;
+}
+
+.colores {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.color {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.tallas {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.talla {
+  border: 1px solid #ddd;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.talla:hover {
+  background: #111;
+  color: #fff;
+}
+
+.precios {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.btn-filtrar {
+  margin-top: 10px;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 3px;
+}
+
+.productos-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.producto {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 12px;
+  position: relative;
+  font-size: 13px;
+}
+
+.producto img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.producto-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.producto-nombre {
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.producto-precio {
+  font-weight: bold;
+  color: #111;
+}
+
+.producto-precio-old {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 12px;
+}
+
+.load-more {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.load-more button {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 10px 30px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.load-more button:hover {
+  background: #f5f5f5;
+}
+
+/* NEWSLETTER */
+.newsletter {
+  background: #f0f4f8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 48px;
+  overflow: hidden;
+}
+
+.newsletter-sub {
+  font-size: 13px;
+  color: #3498db;
+  margin-bottom: 6px;
+}
+
+.newsletter h2 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #111;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.newsletter-form input {
+  border: 1px solid #ddd;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 220px;
+}
+
+.newsletter-form button {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.newsletter-url {
+  font-size: 12px;
+  color: #888;
+}
+
+.newsletter-img {
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* GARANTIAS */
+.garantias {
+  display: flex;
+  justify-content: space-around;
+  padding: 32px 24px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  font-family: Arial, sans-serif;
+}
+
+.garantia {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.garantia-icon {
+  font-size: 28px;
+}
+
+.garantia-titulo {
+  font-weight: bold;
+  font-size: 13px;
+  color: #111;
+}
+
+.garantia-desc {
+  font-size: 12px;
+  color: #888;
+}
+
+/* FOOTER */
+footer {
+  background: #fff;
+  padding: 40px 24px 16px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: #555;
+  border-top: 1px solid #eee;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.footer-titulo {
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.footer-col a {
+  display: block;
+  text-decoration: none;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.footer-col a:hover { color: #111; }
+
+.footer-col p {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.app-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.app-btn {
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+  text-align: center;
+}
+
+.footer-bottom {
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #888;
+}
+
+.redes {
+  display: flex;
+  gap: 10px;
+}
+
+.redes a {
+  text-decoration: none;
+  color: #555;
+  border: 1px solid #ddd;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.pagos {
+  display: flex;
+  gap: 8px;
+}
+
+.pagos span {
+  border: 1px solid #ddd;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">🛒 eTrade</a>
+    <div class="nav-links">
+      <a href="#">Inicio ▾</a>
+      <a href="#">Tienda ▾</a>
+      <a href="#">Paginas ▾</a>
+      <a href="#">Sobre nosotros</a>
+      <a href="#">Blog ▾</a>
+      <a href="#">Contacto</a>
+    </div>
+    <div class="nav-derecho">
+      <div class="cajabusqueda">🔍 ¿Que buscas?</div>
+      <button>♡</button>
+      <button>🛍</button>
+      <button>👤</button>
+    </div>
+  </nav>
+
+  <div class="shop-banner">
+    <div class="banner-text">
+      <div class="breadcrumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <a href="#" class="active">Shop</a>
+      </div>
+      <h1>Explore All Products</h1>
+    </div>
+    <img src="https://www.shutterstock.com/image-photo/antalya-turkey-september-14-2023-600nw-2361673217.jpg" alt="Producto tecnológico" class="banner-img">
+  </div>
+
+  <!-- TIENDA -->
+<div class="shop-container">
+
+  <!-- FILTROS -->
+  <aside class="filtros">
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">CATEGORIAS <span>−</span></div>
+      <label><input type="checkbox"> Headphones</label>
+      <label><input type="checkbox"> Jewellery</label>
+      <label><input type="checkbox"> Laptops</label>
+      <label><input type="checkbox"> Footwear</label>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">GENDER <span>−</span></div>
+      <label><input type="checkbox"> Men</label>
+      <label><input type="checkbox"> Women</label>
+      <label><input type="checkbox"> Unisex</label>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">COLORS</div>
+      <div class="colores">
+        <span class="color" style="background:#e74c3c"></span>
+        <span class="color" style="background:#e91e8c"></span>
+        <span class="color" style="background:#f1c40f"></span>
+        <span class="color" style="background:#fff;border:1px solid #ccc"></span>
+        <span class="color" style="background:#2ecc71"></span>
+        <span class="color" style="background:#3498db"></span>
+        <span class="color" style="background:#111"></span>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">SIZE</div>
+      <div class="tallas">
+        <span class="talla">XS</span>
+        <span class="talla">S</span>
+        <span class="talla">M</span>
+        <span class="talla">L</span>
+        <span class="talla">XL</span>
+        <span class="talla">XXL</span>
+        <span class="talla">M</span>
+        <span class="talla">S</span>
+        <span class="talla">XS</span>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">PRICE <span>−</span></div>
+      <div class="precios">
+        <span>60</span><span>100</span><span>200</span><span>300</span>
+      </div>
+      <div class="precios">
+        <span>300</span><span>500</span>
+      </div>
+      <button class="btn-filtrar">Filter</button>
+    </div>
+  </aside>
+
+  <!-- PRODUCTOS -->
+  <div class="productos-grid">
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">10% Off</div>
+      <img src="https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg" alt="Headphones">
+      <p class="producto-nombre">3D™ Wireless Headset</p>
+      <p class="producto-precio">$400</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">18% Off</div>
+      <img src="https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg" alt="Controller">
+      <p class="producto-nombre">PS5 DualSense 2 Wireless Controller</p>
+      <p class="producto-precio-old">$32.00</p>
+      <p class="producto-precio">$29.90</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#f44336">4% Off</div>
+      <img src="https://m.media-amazon.com/images/I/71KRtHRkiQL._AC_SL1500_.jpg" alt="Keyboard">
+      <p class="producto-nombre">Wired Keyboard & Mouse Combo Pack</p>
+      <p class="producto-precio">$32.99</p>
+    </div>
+
+    <div class="producto">
+      <img src="https://m.media-amazon.com/images/I/61a0series5L._AC_SL1500_.jpg" alt="Webcam">
+      <p class="producto-nombre">Logitech Streamcam</p>
+      <p class="producto-precio-old">$411</p>
+      <p class="producto-precio">$189</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">5% Off</div>
+      <img src="https://m.media-amazon.com/images/I/81Ug5W-MPCL._AC_SL1500_.jpg" alt="Speakers">
+      <p class="producto-nombre">3D™ Wireless Headset</p>
+      <p class="producto-precio-old">$411</p>
+      <p class="producto-precio">$287</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">6% Off</div>
+      <img src="https://m.media-amazon.com/images/I/61LYCGHOuIL._AC_SL1500_.jpg" alt="Echo">
+      <p class="producto-nombre">Base Music Club</p>
+      <p class="producto-precio">$283</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">20% Off</div>
+      <img src="https://m.media-amazon.com/images/I/61ni3t1ryQL._AC_SL1500_.jpg" alt="Mouse">
+      <p class="producto-nombre">Mouse Logitech</p>
+      <p class="producto-precio-old">$125</p>
+      <p class="producto-precio">$100</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">18% Off</div>
+      <img src="https://m.media-amazon.com/images/I/71iRtTzCIuL._AC_SL1500_.jpg" alt="PlayStation">
+      <p class="producto-nombre">Playstation Controller</p>
+      <p class="producto-precio-old">$40.00</p>
+      <p class="producto-precio">$29.99</p>
+    </div>
+
+    <div class="producto">
+      <div class="producto-badge" style="background:#4CAF50">8% Off</div>
+      <img src="https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg" alt="Headset">
+      <p class="producto-nombre">Zoom Headset</p>
+      <p class="producto-precio">$170</p>
+    </div>
+
+    <div class="load-more">
+      <button>Load more</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="newsletter-texto">
+    <p class="newsletter-sub">Newsletter</p>
+    <h2>Get weekly update</h2>
+    <div class="newsletter-form">
+      <input type="email" placeholder="✉ tu@email.com">
+      <button>Subscribe</button>
+    </div>
+    <p class="newsletter-url">www.DownloadNewThemes.com</p>
+  </div>
+  <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=500" alt="Tech" class="newsletter-img">
+</div>
+
+<!-- GARANTIAS -->
+<div class="garantias">
+  <div class="garantia">
+    <span class="garantia-icon">🚚</span>
+    <div>
+      <p class="garantia-titulo">Fast & Secure Delivery</p>
+      <p class="garantia-desc">Tell about your service</p>
+    </div>
+  </div>
+  <div class="garantia">
+    <span class="garantia-icon">💰</span>
+    <div>
+      <p class="garantia-titulo">Money Back Guarantee</p>
+      <p class="garantia-desc">Within 30 days</p>
+    </div>
+  </div>
+  <div class="garantia">
+    <span class="garantia-icon">🕐</span>
+    <div>
+      <p class="garantia-titulo">24-Hour Return Policy</p>
+      <p class="garantia-desc">No questions asked</p>
+    </div>
+  </div>
+  <div class="garantia">
+    <span class="garantia-icon">🎧</span>
+    <div>
+      <p class="garantia-titulo">Pro-Quality Support</p>
+      <p class="garantia-desc">24/7 Live support</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+
+    <div class="footer-col">
+      <p class="footer-titulo">Support</p>
+      <p>600 Menter Street,<br>Las Vegas, CA 56698<br>United States</p>
+      <p>www.shop@gmail.com</p>
+      <p>+(000)555-30-5992</p>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-titulo">Account</p>
+      <a href="#">My Account</a>
+      <a href="#">Login</a>
+      <a href="#">Cart</a>
+      <a href="#">Wishlist</a>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-titulo">Quick Link</p>
+      <a href="#">About Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms Of Use</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-titulo">Download App</p>
+      <p style="font-size:12px">Save $3 With App & New User only</p>
+      <div class="app-btns">
+        <a href="#" class="app-btn">🍎 App Store</a>
+        <a href="#" class="app-btn">▶ Google Play</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="redes">
+      <a href="#">f</a>
+      <a href="#">in</a>
+      <a href="#">t</a>
+      <a href="#">yt</a>
+    </div>
+    <p>© 2025 All rights reserved</p>
+    <div class="pagos">
+      <span>VISA</span>
+      <span>Mastercard</span>
+      <span>PayPal</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
