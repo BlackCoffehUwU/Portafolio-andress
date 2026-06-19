@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eTrade</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      border-bottom: 1px solid #ddd;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .logo-nav {
+      font-weight: bold;
+      text-decoration: none;
+      color: #0062e2;
+    }
+
+    .enlaces-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .enlaces-nav a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .enlaces-nav a:hover { color: #000; }
+
+    .nav-derecha {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .caja-busqueda {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: #999;
+      width: 160px;
+    }
+
+    .banner-tienda {
+      background: #f5f5f5;
+      padding: 20px 24px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 110px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .texto-banner { align-self: center; }
+
+    .ruta-navegacion {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .ruta-navegacion a { text-decoration: none; color: #999; }
+    .ruta-navegacion a.activo { color: #333; font-weight: bold; }
+    .ruta-navegacion span { margin: 0 4px; }
+
+    .banner-tienda h1 {
+      font-size: 22px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .imagen-banner {
+      height: 100px;
+      object-fit: contain;
+      position: absolute;
+      right: 24px;
+      bottom: 0;
+    }
+
+    .contenedor-tienda {
+      display: flex;
+      gap: 24px;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filtros {
+      width: 200px;
+      min-width: 200px;
+      font-size: 13px;
+    }
+
+    .grupo-filtro {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
+    }
+
+    .titulo-filtro {
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .grupo-filtro label {
+      display: block;
+      margin-bottom: 6px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .colores { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .color {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .tallas { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .talla {
+      border: 1px solid #ddd;
+      padding: 3px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .talla:hover { background: #111; color: #fff; }
+
+    .precios {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .btn-filtrar {
+      margin-top: 10px;
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-size: 13px;
+      border-radius: 3px;
+      width: 100%;
+    }
+
+    .alternar-filtros {
+      display: none;
+      width: 100%;
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .cuadricula-productos {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .producto {
+      border: 1px solid #eee;
+      border-radius: 6px;
+      padding: 12px;
+      position: relative;
+      font-size: 13px;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 140px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .etiqueta-producto {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .nombre-producto { color: #333; margin-bottom: 4px; }
+    .precio-producto { font-weight: bold; color: #111; }
+    .precio-anterior-producto { text-decoration: line-through; color: #999; font-size: 12px; }
+
+    .cargar-mas {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    .cargar-mas button {
+      border: 1px solid #ddd;
+      background: #fff;
+      padding: 10px 30px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .cargar-mas button:hover { background: #f5f5f5; }
+
+    .boletin {
+      background: url('imagenes/imagentienda.png') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 48px;
+      overflow: hidden;
+      min-height: 180px;
+    }
+
+    .sub-boletin { font-size: 13px; color: #3498db; margin-bottom: 6px; }
+
+    .boletin h2 {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #111;
+    }
+
+    .formulario-boletin {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .formulario-boletin input {
+      border: 1px solid #ddd;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      width: 220px;
+    }
+
+    .formulario-boletin button {
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .url-boletin { font-size: 12px; color: #888; }
+
+    .garantias {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 32px 24px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      font-family: Arial, sans-serif;
+    }
+
+    .garantia { display: flex; align-items: center; gap: 12px; }
+    .icono-garantia { font-size: 28px; }
+    .titulo-garantia { font-weight: bold; font-size: 13px; color: #111; }
+    .descripcion-garantia { font-size: 12px; color: #888; }
+
+    /* PIE DE PAGINA */
+    footer {
+      background: #fff;
+      padding: 40px 24px 16px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #555;
+      border-top: 1px solid #eee;
+    }
+
+    .cuadricula-pie {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .titulo-pie { font-weight: bold; color: #111; margin-bottom: 12px; font-size: 14px; }
+
+    .columna-pie a {
+      display: block;
+      text-decoration: none;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .columna-pie a:hover { color: #111; }
+    .columna-pie p { margin-bottom: 6px; line-height: 1.6; }
+
+    .botones-app { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+
+    .boton-app {
+      border: 1px solid #ddd;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #333;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .pie-inferior {
+      border-top: 1px solid #eee;
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .redes { display: flex; gap: 10px; }
+
+    .redes a {
+      text-decoration: none;
+      color: #555;
+      border: 1px solid #ddd;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 12px;
+    }
+
+    .pagos { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .pagos span {
+      border: 1px solid #ddd;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+    }
+
+
+    @media (max-width: 1024px) {
+      .enlaces-nav a { margin: 0 5px; font-size: 13px; }
+
+      .caja-busqueda { width: 130px; }
+
+      .contenedor-tienda { gap: 16px; padding: 16px; }
+
+      .filtros { width: 170px; min-width: 170px; }
+
+      .cuadricula-productos { grid-template-columns: repeat(2, 1fr); }
+
+      .cuadricula-pie { grid-template-columns: repeat(2, 1fr); }
+    }
+
+
+    @media (max-width: 768px) {
+
+      nav {
+        padding: 10px 16px;
+        gap: 8px;
+      }
+
+      .enlaces-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #eee;
+        padding-top: 8px;
+      }
+
+      .enlaces-nav.abierto { display: flex; }
+
+      .enlaces-nav a {
+        margin: 0;
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+      }
+
+      .boton-menu-nav {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      .caja-busqueda { width: 120px; font-size: 12px; }
+
+      .banner-tienda { height: auto; padding: 16px; }
+      .banner-tienda h1 { font-size: 18px; }
+      .imagen-banner { height: 70px; right: 12px; }
+
+      .contenedor-tienda {
+        flex-direction: column;
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .filtros {
+        width: 100%;
+        min-width: unset;
+      }
+
+      .alternar-filtros { display: block; }
+
+      .cuerpo-filtros {
+        display: none;
+      }
+
+      .cuerpo-filtros.abierto { display: block; }
+
+      .cuadricula-productos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .producto img { height: 110px; }
+
+      .boletin {
+        flex-direction: column;
+        padding: 28px 20px;
+        gap: 20px;
+        text-align: center;
+        align-items: center;
+      }
+
+      .boletin h2 { font-size: 20px; }
+
+      .formulario-boletin {
+        justify-content: center;
+      }
+
+      .formulario-boletin input { width: 100%; max-width: 260px; }
+
+      .garantias {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 16px;
+        gap: 20px;
+      }
+
+      .cuadricula-pie {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .pie-inferior {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+      }
+    }
+
+
+    @media (max-width: 480px) {
+      .nav-derecha { gap: 8px; }
+      .caja-busqueda { display: none; }
+
+      .banner-tienda h1 { font-size: 16px; }
+      .imagen-banner { height: 55px; }
+
+      .cuadricula-productos { grid-template-columns: 1fr 1fr; gap: 8px; }
+
+      .producto { padding: 8px; }
+      .producto img { height: 90px; }
+      .nombre-producto { font-size: 12px; }
+
+      .cuadricula-pie { grid-template-columns: 1fr; }
+
+      .formulario-boletin { flex-direction: column; align-items: center; }
+      .formulario-boletin input { width: 100%; max-width: 100%; }
+      .formulario-boletin button { width: 100%; max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="logo-nav" href="#">🛒 eTrade</a>
+    <div class="enlaces-nav" id="enlacesNav">
+      <a href="#">Inicio ▾</a>
+      <a href="#">Tienda ▾</a>
+      <a href="#">Paginas ▾</a>
+      <a href="#">Sobre nosotros</a>
+      <a href="#">Blog ▾</a>
+      <a href="#">Contacto</a>
+    </div>
+    <div class="nav-derecha">
+      <div class="caja-busqueda">🔍 ¿Que buscas?</div>
+      <button>♡</button>
+      <button>🛍</button>
+      <button>👤</button>
+      <button class="boton-menu-nav" id="botonMenu" style="display:none">☰</button>
+    </div>
+  </nav>
+
+  <div class="banner-tienda">
+    <div class="texto-banner">
+      <div class="ruta-navegacion">
+        <a href="#">Inicio</a>
+        <span>/</span>
+        <a href="#" class="activo">Tienda</a>
+      </div>
+      <h1>Explora todos los productos</h1>
+    </div>
+    <img src="https://png.pngtree.com/png-clipart/20240102/ourmid/pngtree-iphone-15-plus-png-image_11397931.png" alt="Producto tecnológico" class="imagen-banner">
+  </div>
+
+  <div class="contenedor-tienda">
+
+    <aside class="filtros">
+      <button class="alternar-filtros" id="alternarFiltros">☰ Filtros</button>
+      <div class="cuerpo-filtros" id="cuerpoFiltros">
+
+        <div class="grupo-filtro">
+          <div class="titulo-filtro">CATEGORIAS <span>−</span></div>
+          <label><input type="checkbox"> Auriculares</label>
+          <label><input type="checkbox"> Joyería</label>
+          <label><input type="checkbox"> Portátiles</label>
+          <label><input type="checkbox"> Calzado</label>
+        </div>
+
+        <div class="grupo-filtro">
+          <div class="titulo-filtro">GÉNERO <span>−</span></div>
+          <label><input type="checkbox"> Hombre</label>
+          <label><input type="checkbox"> Mujer</label>
+          <label><input type="checkbox"> Unisex</label>
+        </div>
+
+        <div class="grupo-filtro">
+          <div class="titulo-filtro">COLORES</div>
+          <div class="colores">
+            <span class="color" style="background:#e74c3c"></span>
+            <span class="color" style="background:#e91e8c"></span>
+            <span class="color" style="background:#f1c40f"></span>
+            <span class="color" style="background:#fff;border:1px solid #ccc"></span>
+            <span class="color" style="background:#2ecc71"></span>
+            <span class="color" style="background:#3498db"></span>
+            <span class="color" style="background:#111"></span>
+          </div>
+        </div>
+
+        <div class="grupo-filtro">
+          <div class="titulo-filtro">TALLA</div>
+          <div class="tallas">
+            <span class="talla">XS</span>
+            <span class="talla">S</span>
+            <span class="talla">M</span>
+            <span class="talla">L</span>
+            <span class="talla">XL</span>
+            <span class="talla">XXL</span>
+          </div>
+        </div>
+
+        <div class="grupo-filtro">
+          <div class="titulo-filtro">PRECIO <span>−</span></div>
+          <div class="precios">
+            <span>60</span><span>100</span><span>200</span><span>300</span>
+          </div>
+          <div class="precios">
+            <span>300</span><span>500</span>
+          </div>
+          <button class="btn-filtrar">Filtrar</button>
+        </div>
+
+      </div>
+    </aside>
+
+    <div class="cuadricula-productos">
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">10% Desc</div>
+        <img src="https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg" alt="Auriculares">
+        <p class="nombre-producto">Auriculares Inalámbricos 3D™</p>
+        <p class="precio-producto">$400</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">18% Desc</div>
+        <img src="https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg" alt="Nintendo Switch">
+        <p class="nombre-producto">Nintendo Switch</p>
+        <p class="precio-anterior-producto">$32.00</p>
+        <p class="precio-producto">$29.90</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">4% Desc</div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSexG52ksSOCLFzq1P3cG9mFSsaRlnBrxaw&s" alt="Teclado">
+        <p class="nombre-producto">Combo de Teclado y Mouse con Cable</p>
+        <p class="precio-producto">$32.99</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">54% Desc</div>
+        <img src="https://http2.mlstatic.com/D_NQ_NP_847568-MLA99525252570_122025-O.webp" alt="Cámara web">
+        <p class="nombre-producto">Logitech Streamcam</p>
+        <p class="precio-anterior-producto">$411</p>
+        <p class="precio-producto">$189</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">5% Desc</div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi1UAAsuRK4M_btdbXaWMAlCoqH96aeRYVeQ&s" alt="Bocinas">
+        <p class="nombre-producto">Auriculares Inalámbricos 3D™</p>
+        <p class="precio-anterior-producto">$411</p>
+        <p class="precio-producto">$287</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">6% Desc</div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcZE3n4eaBwcBaZ3bwZrPJlJyeUABNgMNWUA&s" alt="PlayStation 5">
+        <p class="nombre-producto">PlayStation 5</p>
+        <p class="precio-producto">$283</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">20% Desc</div>
+        <img src="https://m.media-amazon.com/images/I/61ni3t1ryQL._AC_SL1500_.jpg" alt="Mouse Logitech">
+        <p class="nombre-producto">Mouse Logitech</p>
+        <p class="precio-anterior-producto">$125</p>
+        <p class="precio-producto">$100</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">18% Desc</div>
+        <img src="https://http2.mlstatic.com/D_Q_NP_839211-MLA99394377868_112025-O.webp" alt="Control de PlayStation">
+        <p class="nombre-producto">Control de PlayStation</p>
+        <p class="precio-anterior-producto">$40.00</p>
+        <p class="precio-producto">$29.99</p>
+      </div>
+
+      <div class="producto">
+        <div class="etiqueta-producto" style="background:#2980b9">8% Desc</div>
+        <img src="https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg" alt="Auriculares">
+        <p class="nombre-producto">Auriculares Zoom</p>
+        <p class="precio-producto">$170</p>
+      </div>
+
+      <div class="cargar-mas">
+        <button>Cargar más</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOLETIN -->
+  <div class="boletin">
+    <div class="texto-boletin">
+      <p class="sub-boletin">Boletín</p>
+      <h2>Recibe novedades semanales</h2>
+      <div class="formulario-boletin">
+        <input type="email" placeholder="✉ tu@email.com">
+        <button>Suscribirse</button>
+      </div>
+      <p class="url-boletin">www.DownloadNewThemes.com</p>
+    </div>
+  </div>
+
+  <!-- GARANTIAS -->
+  <div class="garantias">
+    <div class="garantia">
+      <span class="icono-garantia">🚚</span>
+      <div>
+        <p class="titulo-garantia">Envío rápido y seguro</p>
+        <p class="descripcion-garantia">Cuéntales sobre tu servicio</p>
+      </div>
+    </div>
+    <div class="garantia">
+      <span class="icono-garantia">💰</span>
+      <div>
+        <p class="titulo-garantia">Garantía de devolución</p>
+        <p class="descripcion-garantia">Dentro de 30 días</p>
+      </div>
+    </div>
+    <div class="garantia">
+      <span class="icono-garantia">🕐</span>
+      <div>
+        <p class="titulo-garantia">Política de devolución de 24 horas</p>
+        <p class="descripcion-garantia">Sin preguntas</p>
+      </div>
+    </div>
+    <div class="garantia">
+      <span class="icono-garantia">🎧</span>
+      <div>
+        <p class="titulo-garantia">Soporte de calidad profesional</p>
+        <p class="descripcion-garantia">Soporte en vivo 24/7</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PAGINA -->
+  <footer>
+    <div class="cuadricula-pie">
+
+      <div class="columna-pie">
+        <p class="titulo-pie">Soporte</p>
+        <p>600 Menter Street,<br>Las Vegas, CA 56698<br>Estados Unidos</p>
+        <p>www.shop@gmail.com</p>
+        <p>+(000)555-30-5992</p>
+      </div>
+
+      <div class="columna-pie">
+        <p class="titulo-pie">Cuenta</p>
+        <a href="#">Mi cuenta</a>
+        <a href="#">Iniciar sesión</a>
+        <a href="#">Carrito</a>
+        <a href="#">Lista de deseos</a>
+      </div>
+
+      <div class="columna-pie">
+        <p class="titulo-pie">Enlaces rápidos</p>
+        <a href="#">Sobre nosotros</a>
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+        <a href="#">Contacto</a>
+      </div>
+
+      <div class="columna-pie">
+        <p class="titulo-pie">Descargar App</p>
+        <p style="font-size:12px">Ahorra $3 con la app, solo para nuevos usuarios</p>
+        <div class="botones-app">
+          <a href="#" class="boton-app">🍎 App Store</a>
+          <a href="#" class="boton-app">▶ Google Play</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pie-inferior">
+      <div class="redes">
+        <a href="#">f</a>
+        <a href="#">in</a>
+        <a href="#">t</a>
+        <a href="#">yt</a>
+      </div>
+      <p>© 2025 Todos los derechos reservados</p>
+      <div class="pagos">
+        <span>VISA</span>
+        <span>Mastercard</span>
+        <span>PayPal</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
