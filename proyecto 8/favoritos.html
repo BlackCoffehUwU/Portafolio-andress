@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+    <style>
+        body {
+            background-color: #1a3fd6;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #f2f2f2;
+            padding: 20px 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            color: #000;
+        }
+
+        .pestanas {
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .pestanas a {
+            text-decoration: none;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .pestanas a.activa {
+            color: #1a3fd6;
+            font-weight: bold;
+            border-bottom: 2px solid #1a3fd6;
+            padding-bottom: 10px;
+        }
+
+        .contenedor-grilla {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .tarjeta-usuario {
+            background-color: #f2f2f2;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tarjeta-usuario:hover {
+            background-color: #e6e6e6;
+        }
+
+        .avatar-chico {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .tarjeta-usuario h3 {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .tarjeta-usuario p {
+            margin: 2px 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .genero-tarjeta {
+            text-transform: capitalize;
+        }
+
+        .estrella {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #f2b400;
+            cursor: pointer;
+        }
+
+        #mensajevacio {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Directorio de usuarios</h1>
+        <div class="pestanas">
+            <a href="index.html">Todos (<span id="totalusuarios">0</span>)</a>
+            <a href="favoritos.html" class="activa">★ Favoritos (<span id="totalfavoritos">0</span>)</a>
+        </div>
+    </div>
+
+    <div class="contenedor-grilla" id="grilla"></div>
+    <p id="mensajevacio" style="display: none;">Aún no tienes usuarios marcados como favoritos.</p>
+
+    <script>
+        function esFavorito(uuid) {
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            return favoritos.includes(uuid);
+        }
+
+        function alternarFavorito(uuid) {
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            if (favoritos.includes(uuid)) {
+                favoritos = favoritos.filter(function (id) {
+                    return id !== uuid;
+                });
+            } else {
+                favoritos.push(uuid);
+            }
+            localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        }
+
+        function crearTarjeta(usuario) {
+            let tarjeta = document.createElement("div");
+            tarjeta.className = "tarjeta-usuario";
+
+            let estrella = document.createElement("span");
+            estrella.className = "estrella";
+            estrella.textContent = esFavorito(usuario.login.uuid) ? "★" : "☆";
+            estrella.addEventListener("click", function (evento) {
+                evento.stopPropagation();
+                alternarFavorito(usuario.login.uuid);
+                estrella.textContent = esFavorito(usuario.login.uuid) ? "★" : "☆";
+            });
+
+            let avatar = document.createElement("img");
+            avatar.className = "avatar-chico";
+            avatar.src = usuario.picture.medium;
+
+            let nombre = document.createElement("h3");
+            nombre.textContent = usuario.name.first + " " + usuario.name.last;
+
+            let pais = document.createElement("p");
+            pais.textContent = usuario.location.country;
+
+            let genero = document.createElement("p");
+            genero.className = "genero-tarjeta";
+            genero.textContent = usuario.gender;
+
+            tarjeta.appendChild(estrella);
+            tarjeta.appendChild(avatar);
+            tarjeta.appendChild(nombre);
+            tarjeta.appendChild(pais);
+            tarjeta.appendChild(genero);
+
+            tarjeta.addEventListener("click", function () {
+                localStorage.setItem("usuarioActual", usuario.login.uuid);
+                location.href = "perfil.html";
+            });
+
+            return tarjeta;
+        }
+
+        function mostrarUsuarios(lista, contenedor) {
+            contenedor.innerHTML = "";
+            lista.forEach(function (usuario) {
+                contenedor.appendChild(crearTarjeta(usuario));
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+            document.getElementById("totalusuarios").textContent = usuarios.length;
+            document.getElementById("totalfavoritos").textContent = favoritos.length;
+
+            let usuariosFavoritos = usuarios.filter(function (usuario) {
+                return favoritos.includes(usuario.login.uuid);
+            });
+
+            let grilla = document.getElementById("grilla");
+
+            if (usuariosFavoritos.length === 0) {
+                document.getElementById("mensajevacio").style.display = "block";
+            } else {
+                mostrarUsuarios(usuariosFavoritos, grilla);
+            }
+        });
+    </script>
+
+</body>
+</html>

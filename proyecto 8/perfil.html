@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <style>
+        body {
+            background-color: #1a3fd6;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #f2f2f2;
+            padding: 30px;
+            padding-bottom: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .btnvolver {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .estrella-perfil {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            color: #f2b400;
+            cursor: pointer;
+        }
+
+        #perfil {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .usuario-linea {
+            margin-top: 15px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .card {
+            background-color: #f2f2f2;
+            margin: 20px 30px;
+            padding: 20px 30px;
+            border-radius: 6px;
+            font-size: 20px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .fila {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ddd;
+            font-size: 20px;
+        }
+
+        .columna {
+            display: flex;
+            justify-content: space-between;
+            padding-right: 20px;
+        }
+
+        .etiqueta {
+            color: #555;
+        }
+
+        .valor {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .btnmapa {
+            background-color: #1a3fd6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <button class="btnvolver" onclick="volver()">← Volver</button>
+        <span id="estrellaperfil" class="estrella-perfil">☆</span>
+        <img id="perfil" alt="">
+        <div class="usuario-linea">
+            <span id="usuario"></span> · <span id="localizacion"></span>, <span id="estado"></span>, <span
+                id="pais"></span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Información personal</h2>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Título</span><span class="valor" id="titulo"></span></div>
+            <div class="columna"><span class="etiqueta">Fecha de nacimiento</span><span class="valor"
+                    id="fechanacimiento"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Nombre</span><span class="valor" id="nombre"></span></div>
+            <div class="columna"><span class="etiqueta">Edad</span><span class="valor" id="edad"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Apellido</span><span class="valor" id="apellido"></span></div>
+            <div class="columna"><span class="etiqueta">Registrado desde</span><span class="valor"
+                    id="registradofecha"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Género</span><span class="valor" id="genero"></span></div>
+            <div class="columna"><span class="etiqueta">ID (<span id="idnombre"></span>)</span><span class="valor"
+                    id="idvalor"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Nacionalidad</span><span class="valor" id="nacionalidad"></span>
+            </div>
+            <div class="columna"><span class="etiqueta">Hora de nacimiento</span><span class="valor"
+                    id="horanacimiento"></span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Ubicación</h2>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Calle</span><span class="valor"><span id="calle"></span> <span
+                        id="numerocalle"></span></span></div>
+            <div class="columna"><span class="etiqueta">Ciudad</span><span class="valor" id="localizacion2"></span>
+            </div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Estado</span><span class="valor" id="estado2"></span></div>
+            <div class="columna"><span class="etiqueta">País</span><span class="valor" id="pais2"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Código postal</span><span class="valor"
+                    id="codigopostal"></span></div>
+            <div class="columna"><span class="etiqueta">Coordenadas</span><span class="valor"><span
+                        id="latitud" style="display: none;"></span> <span id="longitud" style="display: none;"></span></span> <button
+                    class="btnmapa" onclick="btnmapa()">Ver en mapa</button></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Zona horaria</span><span class="valor"
+                    id="zonahorariaoffset"></span></div>
+            <div class="columna"><span class="etiqueta">Descripción huso</span><span class="valor"
+                    id="zonahoraria"></span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Cuenta</h2>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Email</span><span class="valor" id="email"></span></div>
+            <div class="columna"><span class="etiqueta">Teléfono</span><span class="valor" id="telefono"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Celular</span><span class="valor" id="celular"></span></div>
+            <div class="columna"><span class="etiqueta">UUID</span><span class="valor" id="uuid"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">Contraseña</span><span class="valor" id="contrasena"></span>
+            </div>
+            <div class="columna"><span class="etiqueta">Salt</span><span class="valor" id="salt"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">MD5</span><span class="valor" id="md5"></span></div>
+            <div class="columna"><span class="etiqueta">SHA1</span><span class="valor" id="sha1"></span></div>
+        </div>
+        <div class="fila">
+            <div class="columna"><span class="etiqueta">SHA256</span><span class="valor" id="sha256"></span></div>
+            <div class="columna"><span class="etiqueta">Edad registrado</span><span class="valor"
+                    id="registradoedad"></span></div>
+        </div>
+    </div>
+
+    <script>
+        function esFavorito(uuid) {
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            return favoritos.includes(uuid);
+        }
+
+        function alternarFavorito(uuid) {
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            if (favoritos.includes(uuid)) {
+                favoritos = favoritos.filter(function (id) {
+                    return id !== uuid;
+                });
+            } else {
+                favoritos.push(uuid);
+            }
+            localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            let uuidActual = localStorage.getItem("usuarioActual");
+
+            let usuario = usuarios.find(function (u) {
+                return u.login.uuid === uuidActual;
+            });
+
+            if (!usuario) {
+                alert("No se encontró el usuario. Vuelve al directorio.");
+                location.href = "index.html";
+                return;
+            }
+
+            let nombre = document.getElementById("nombre")
+            nombre.textContent = usuario.name.first
+            let apellido = document.getElementById("apellido")
+            apellido.textContent = usuario.name.last
+            let titulo = document.getElementById("titulo")
+            titulo.textContent = usuario.name.title
+            let genero = document.getElementById("genero")
+            genero.textContent = usuario.gender
+            let nacionalidad = document.getElementById("nacionalidad")
+            nacionalidad.textContent = usuario.nat
+            let pais = document.getElementById("pais")
+            pais.textContent = usuario.location.country
+            let pais2 = document.getElementById("pais2")
+            pais2.textContent = usuario.location.country
+            let idnombre = document.getElementById("idnombre")
+            idnombre.textContent = usuario.id.name
+            let idvalor = document.getElementById("idvalor")
+            idvalor.textContent = usuario.id.value
+            let fechaNacimiento = new Date(usuario.dob.date)
+            let fechanacimiento = document.getElementById("fechanacimiento")
+            fechanacimiento.textContent = fechaNacimiento.toLocaleDateString("es-ES")
+            let horanacimiento = document.getElementById("horanacimiento")
+            horanacimiento.textContent = fechaNacimiento.toLocaleTimeString("es-ES")
+            let edad = document.getElementById("edad")
+            edad.textContent = usuario.dob.age
+            let email = document.getElementById("email")
+            email.textContent = usuario.email
+            let celular = document.getElementById("celular")
+            celular.textContent = usuario.cell
+            let perfil = document.getElementById("perfil")
+            perfil.src = usuario.picture.large
+            let localizacion = document.getElementById("localizacion")
+            localizacion.textContent = usuario.location.city
+            let localizacion2 = document.getElementById("localizacion2")
+            localizacion2.textContent = usuario.location.city
+            let latitud = document.getElementById("latitud")
+            latitud.textContent = usuario.location.coordinates.latitude
+            let longitud = document.getElementById("longitud")
+            longitud.textContent = usuario.location.coordinates.longitude
+            let codigopostal = document.getElementById("codigopostal")
+            codigopostal.textContent = usuario.location.postcode
+            let estado = document.getElementById("estado")
+            estado.textContent = usuario.location.state
+            let estado2 = document.getElementById("estado2")
+            estado2.textContent = usuario.location.state
+            let calle = document.getElementById("calle")
+            calle.textContent = usuario.location.street.name
+            let numerocalle = document.getElementById("numerocalle")
+            numerocalle.textContent = usuario.location.street.number
+            let telefono = document.getElementById("telefono")
+            telefono.textContent = usuario.phone
+            let zonahoraria = document.getElementById("zonahoraria")
+            zonahoraria.textContent = usuario.location.timezone.description
+            let zonahorariaoffset = document.getElementById("zonahorariaoffset")
+            zonahorariaoffset.textContent = usuario.location.timezone.offset
+            let usuarioSpan = document.getElementById("usuario")
+            usuarioSpan.textContent = usuario.login.username
+            let contrasena = document.getElementById("contrasena")
+            contrasena.textContent = usuario.login.password
+            let salt = document.getElementById("salt")
+            salt.textContent = usuario.login.salt
+            let md5 = document.getElementById("md5")
+            md5.textContent = usuario.login.md5
+            let sha1 = document.getElementById("sha1")
+            sha1.textContent = usuario.login.sha1
+            let sha256 = document.getElementById("sha256")
+            sha256.textContent = usuario.login.sha256
+            let uuid = document.getElementById("uuid")
+            uuid.textContent = usuario.login.uuid
+            let registradoedad = document.getElementById("registradoedad")
+            registradoedad.textContent = usuario.registered.age
+            let registradofecha = document.getElementById("registradofecha")
+            registradofecha.textContent = usuario.registered.date
+
+            let estrella = document.getElementById("estrellaperfil")
+            estrella.textContent = esFavorito(usuario.login.uuid) ? "★" : "☆"
+            estrella.addEventListener("click", () => {
+                alternarFavorito(usuario.login.uuid)
+                estrella.textContent = esFavorito(usuario.login.uuid) ? "★" : "☆"
+            })
+        })
+
+        function btnmapa() {
+            let latitud = document.getElementById("latitud").textContent;
+            let longitud = document.getElementById("longitud").textContent;
+            if (latitud && longitud) {
+                window.open(`https://www.google.com/maps?q=${latitud},${longitud}`, "_blank");
+            }
+        }
+
+        function volver() {
+            location.href = "index.html";
+        }
+    </script>
+
+</body>
+
+</html>
