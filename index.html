@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio · Andrés Calderón</title>
+
+<style>
+  :root{
+    --azul: #2f6fbd;
+    --azul-oscuro: #1d3f66;
+    --fondo: #f5f7fa;
+    --tarjeta: #ffffff;
+    --texto: #22303f;
+    --texto-suave: #5b6b7a;
+    --borde: #e1e6ec;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+  }
+
+  header{
+    background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+
+  header h1{
+    margin: 0 0 6px;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: .3px;
+  }
+
+  header p{
+    margin: 0;
+    color: rgba(255,255,255,0.85);
+    font-size: 1.05rem;
+  }
+
+  main{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+
+  main > h2{
+    text-align: center;
+    color: var(--azul-oscuro);
+    font-size: 1.5rem;
+    margin-bottom: 32px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .tarjeta{
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+
+  .tarjeta:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(29,63,102,0.12);
+  }
+
+  .tarjeta img{
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--fondo);
+    box-shadow: 0 0 0 1px var(--borde);
+    margin-bottom: 16px;
+  }
+
+  .tarjeta h3{
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    color: var(--texto);
+  }
+
+  .tarjeta p{
+    margin: 0 0 18px;
+    font-size: .92rem;
+    color: var(--texto-suave);
+    line-height: 1.45;
+    flex-grow: 1;
+  }
+
+  .boton{
+    background: var(--azul);
+    color: white;
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: background .15s ease;
+  }
+
+  .boton:hover{
+    background: var(--azul-oscuro);
+  }
+
+  footer{
+    text-align: center;
+    padding: 24px;
+    color: var(--texto-suave);
+    font-size: .85rem;
+  }
+</style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Andrés Calderón</h1>
+    <p>Estudiante de Análisis y Desarrollo de Software · Proyectos HTML &amp; CSS</p>
+  </header>
+
+  <main>
+    <h2>Mis proyectos</h2>
+
+    <div class="grid">
+
+      <div class="tarjeta">
+        <img src="https://www.shutterstock.com/image-vector/cv-icon-person-resume-applying-600nw-2507547827.jpg" alt="Hoja de vida">
+        <h3>Hoja de vida</h3>
+        <p>Documento que resume la información personal, estudios, experiencia y habilidades de una persona para presentarse a un empleo.</p>
+        <a href="./hoja_vida/hoja_vida.html" class="boton">Ver más</a>
+      </div>
+
+      <div class="tarjeta">
+        <img src="https://thumbs.dreamstime.com/b/icono-de-elemento-gr%C3%A1fico-la-tarjeta-perfil-usuario-estilo-l%C3%ADnea-minimalista-un-que-representa-una-el-dise%C3%B1o-presenta-esquema-395426172.jpg" alt="Tarjeta personal">
+        <h3>Tarjeta personal</h3>
+        <p>Una tarjeta pequeña que indica mi nombre, título, mis conocimientos e intereses.</p>
+        <a href="./tarjeta/tarjeta.html" class="boton">Ver más</a>
+      </div>
+
+      <div class="tarjeta">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFIm5pBQLNTbacwOSwz7FSRiyzhY13T6LCwA&s" alt="¿Quién soy?">
+        <h3>¿Quién soy?</h3>
+        <p>Página web en donde describo quién soy, mi personalidad y mis objetivos.</p>
+        <a href="./quien_soy_yo/quien_soy_yo.html" class="boton">Ver más</a>
+      </div>
+
+      <div class="tarjeta">
+        <img src="https://static.vecteezy.com/system/resources/previews/002/205/928/non_2x/payment-invoice-icon-free-vector.jpg" alt="Factura">
+        <h3>Factura</h3>
+        <p>Factura que nos pidieron hacer como ejercicio de maquetado.</p>
+        <a href="./factura/factura.html" class="boton">Ver más</a>
+      </div>
+
+      <div class="tarjeta">
+        <img src="https://static.vecteezy.com/system/resources/previews/020/813/614/non_2x/flower-icon-for-your-website-design-logo-app-ui-free-vector.jpg" alt="Página floristería">
+        <h3>Página floristería</h3>
+        <p>Página web de floristería que nos pidieron crear.</p>
+        <a href="./pagina/pagina.html" class="boton">Ver más</a>
+      </div>
+
+      <div class="tarjeta">
+        <img src="https://static.vecteezy.com/system/resources/previews/020/813/614/non_2x/flower-icon-for-your-website-design-logo-app-ui-free-vector.jpg" alt="Página tienda">
+        <h3>Página tienda</h3>
+        <p>Página web de tienda virtual que nos pidieron crear.</p>
+        <a href="./trabajo5/trabajo5.html" class="boton">Ver más</a>
+      </div>
+
+      <div class="tarjeta">
+        <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png" alt="Perfil API">
+        <h3>Perfil API</h3>
+        <p>Perfil de usuario consumido desde una API.</p>
+        <a href="./proyecto 8/index.html" class="boton">Ver más</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    &copy; Andrés Calderón · Portafolio de proyectos
+  </footer>
+
+</body>
+</html>
